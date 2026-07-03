@@ -45,7 +45,11 @@ Software Engineering Intern | TechStart Solutions (Summer 2024)
 - Collaborated with developers to build frontend components for client websites.
 - Optimized page loading performance by refactoring legacy CSS code.`;
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+let rawApiUrl = import.meta.env.VITE_API_URL || '';
+if (rawApiUrl.endsWith('/')) {
+  rawApiUrl = rawApiUrl.slice(0, -1);
+}
+const API_BASE = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
 
 const App = () => {
   // Authentication & Session State
