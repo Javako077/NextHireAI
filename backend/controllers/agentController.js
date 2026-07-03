@@ -3,7 +3,7 @@ const { findMatchingJobs } = require('../agents/jobSearchAgent');
 const { generateCoverLetter } = require('../agents/coverLetterAgent');
 const { generateInterviewQuestions } = require('../agents/interviewAgent');
 const User = require('../models/User');
-const { PDFParse } = require('pdf-parse');
+const pdf = require('pdf-parse');
 const mammoth = require('mammoth');
 
 const uploadResumeAndAnalyze = async (req, res) => {
@@ -13,8 +13,7 @@ const uploadResumeAndAnalyze = async (req, res) => {
     if (req.file) {
       const buffer = req.file.buffer;
       if (req.file.mimetype === 'application/pdf') {
-        const instance = new PDFParse(new Uint8Array(buffer));
-        const data = await instance.getText();
+        const data = await pdf(buffer);
         resumeText = data.text;
       } else if (
         req.file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
